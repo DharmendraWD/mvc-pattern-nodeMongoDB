@@ -1,6 +1,13 @@
 const User = require('../models/user')
 
 
+
+
+
+
+
+
+
 // get all users 
 const handleGetAllUsers = async (req, res) => {
     try {
@@ -15,7 +22,10 @@ const handleGetAllUsers = async (req, res) => {
 // create users 
 const handleCreateUser = async (req, res) => {
     try {
-        const user = await User.create(req.body)
+        const {name, email, password} = req.body;
+        
+        const newUser = await User.create({name:name, email:email, password:password})      //creates an instance in newUser
+        const user = await newUser.save()       //saves user in database
         res.status(201).json(user)
     } catch (error) {
         res.status(500).json({ message: 'Error creating user', error })
